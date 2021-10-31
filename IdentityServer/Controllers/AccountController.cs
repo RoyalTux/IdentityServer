@@ -94,6 +94,7 @@ namespace IdentityServer.Controllers
             {
                 // validate username/password
                 var user = await _userManager.FindByNameAsync(model.Username);
+
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.Name));
@@ -148,6 +149,7 @@ namespace IdentityServer.Controllers
 
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
+
             return View(vm);
         }
 
@@ -182,13 +184,16 @@ namespace IdentityServer.Controllers
         public async Task<IActionResult> Logout(string logoutId)
         {
             await _signInManager.SignOutAsync();
+
             var context = await _interaction.GetLogoutContextAsync(logoutId);
+
             return Redirect(context.PostLogoutRedirectUri);
         }
 
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+
             if (context?.IdP != null)
             {
                 var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
@@ -220,6 +225,7 @@ namespace IdentityServer.Controllers
                 }).ToList();
 
             var allowLocal = true;
+
             if (context?.ClientId != null)
             {
                 var client = await _clientStore.FindEnabledClientByIdAsync(context.ClientId);
@@ -247,8 +253,10 @@ namespace IdentityServer.Controllers
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
+
             vm.Username = model.Username;
             vm.RememberLogin = model.RememberLogin;
+
             return vm;
         }
     }

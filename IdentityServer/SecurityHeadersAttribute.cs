@@ -12,6 +12,7 @@ namespace IdentityServer
         public override void OnResultExecuting(ResultExecutingContext context)
         {
             var result = context.Result;
+
             if (result is ViewResult)
             {
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
@@ -46,6 +47,7 @@ namespace IdentityServer
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
                 var referrer_policy = "no-referrer";
+
                 if (!context.HttpContext.Response.Headers.ContainsKey("Referrer-Policy"))
                 {
                     context.HttpContext.Response.Headers.Add("Referrer-Policy", referrer_policy);
