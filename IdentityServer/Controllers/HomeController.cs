@@ -27,6 +27,7 @@ namespace IdentityServer.Controllers
             }
 
             _logger.LogInformation("Homepage is disabled in production. Returning 404.");
+
             return NotFound();
         }
 

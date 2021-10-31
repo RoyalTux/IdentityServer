@@ -172,7 +172,8 @@ namespace IdentityServer.Controllers
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.User));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Admin));
-
+            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Doctor));
+            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Patient));
 
             return Ok(new RegisterResponseViewModel(user));
         }
